@@ -136,7 +136,6 @@ public class GameGraphicsManager {
             int itemDamage = 0; // Default damage
 
             if (itemKind.equals("weapon")) {
-                // You need a way to get item details from gameElements or another source
                 Item weapon = gameElements.getItems().stream()
                                 .filter(i -> i.getElement().getName().equals(itemName))
                                 .findFirst()
