@@ -1,0 +1,47 @@
+<project name="MyProject" default="jar" basedir=".">
+    <!-- Define some properties -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="classes"/>
+    <property name="docs.dir" value="docs/api"/>
+    <property name="jar.dir" value="."/>
+    <property name="main.class" value="fr.uge.myproject.main.Main"/>
+    <property name="jar.name" value="myproject.jar"/>
+    <property name="lib.dir" value="lib"/>
+
+    <!-- Set up the classpath -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <!-- Clean build -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${docs.dir}"/>
+        <delete file="${jar.dir}/${jar.name}"/>
+    </target>
+
+    <!-- Compile source code -->
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath"/>
+    </target>
+
+    <!-- Create JAR -->
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${jar.name}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+            <!-- Include external jar files -->
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <!-- Generate Javadoc -->
+    <target name="javadoc">
+        <mkdir dir="${docs.dir}"/>
+        <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" classpathref="classpath"/>
+    </target>
+
+</project>
